@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulaire — DJY Academy Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/vocabulary.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dark-dashboard">
+
+<div class="vocab-page">
+
+    <!-- SIDEBAR -->
+    <aside class="vocab-sidebar">
+        <div class="vocab-sidebar-logo-block">
+            <div class="vocab-sidebar-logo-icon">
+                <i data-lucide="zap"></i>
+            </div>
+            <span class="vocab-sidebar-brand">DJY ACADEMY HUB</span>
+        </div>
+
+        <nav class="vocab-sidebar-nav">
+            <a href="dashboard.html" class="vocab-nav-link">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="lessons.html" class="vocab-nav-link">
+                <i data-lucide="book-open"></i>
+                <span>Cours</span>
+            </a>
+            <a href="quiz.html" class="vocab-nav-link">
+                <i data-lucide="help-circle"></i>
+                <span>Quiz</span>
+            </a>
+            <a href="vocabulary.html" class="vocab-nav-link active">
+                <i data-lucide="languages"></i>
+                <span>Vocabulaire</span>
+            </a>
+            <a href="progress.html" class="vocab-nav-link">
+                <i data-lucide="trending-up"></i>
+                <span>Progression</span>
+            </a>
+            <a href="profile.html" class="vocab-nav-link">
+                <i data-lucide="user"></i>
+                <span>Profil</span>
+            </a>
+            <a href="settings.html" class="vocab-nav-item">
+                <i data-lucide="settings"></i>
+                <span>Paramètres</span>
+            </a>
+        </nav>
+
+        <div class="vocab-sidebar-premium-card">
+            <span class="vocab-premium-crown">👑</span>
+            <p class="vocab-premium-title">Passez à Premium</p>
+            <p class="vocab-premium-sub">Débloquez tout le contenu</p>
+            <button class="vocab-premium-btn">Découvrir</button>
+        </div>
+
+        <a href="#" class="vocab-nav-logout" id="side-logout">
+            <i data-lucide="log-out"></i>
+            <span>Déconnexion</span>
+        </a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="vocab-main">
+
+        <!-- PARTICULES -->
+        <div class="vocab-particles-bg" aria-hidden="true">
+            <div class="vocab-glow-blue"></div>
+            <div class="vocab-glow-purple"></div>
+            <div id="vocab-particles"></div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="vocab-header">
+            <div class="vocab-header-left">
+                <h1 class="vocab-header-title">Vocabulaire</h1>
+                <p class="vocab-header-sub">Apprends et révise ton vocabulaire</p>
+            </div>
+            <div class="vocab-header-right">
+                <span class="vocab-xp-badge">⚡ <span id="total-xp">0</span> XP</span>
+
+                <div class="vocab-lang-btn" id="dash-lang-selector">
+                    <img src="" alt="" class="vocab-lang-flag" id="dash-flag">
+                    <span id="dash-lang-text">English</span>
+                    <i data-lucide="chevron-down"></i>
+                    <div class="vocab-lang-menu hidden" id="lang-dropdown">
+                        <div class="vocab-lang-item" data-lang="fr">
+                            <img src="images/flags/fr.png" alt="FR"> Français
+                        </div>
+                        <div class="vocab-lang-item" data-lang="en">
+                            <img src="images/flags/en.png" alt="EN"> English
+                        </div>
+                        <div class="vocab-lang-item" data-lang="es">
+                            <img src="images/flags/es.png" alt="ES"> Español
+                        </div>
+                    </div>
+                </div>
+
+                <button class="vocab-icon-btn" id="theme-btn" type="button">
+                    <i data-lucide="moon" id="theme-icon-moon"></i>
+                    <i data-lucide="sun" id="theme-icon-sun" style="display:none;"></i>
+                </button>
+
+                <div class="vocab-notif-btn">
+                    <i data-lucide="bell"></i>
+                    <span class="vocab-notif-dot">3</span>
+                </div>
+
+                <div class="vocab-user-btn">
+                    <div class="vocab-avatar" id="vocab-avatar">DJ</div>
+                    <div class="vocab-user-text">
+                        <span class="vocab-user-name" id="vocab-username">Djybanks</span>
+                        <span class="vocab-user-lvl" id="vocab-level">Niveau 1</span>
+                    </div>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENU -->
+        <div class="vocab-body">
+
+            <!-- GAUCHE : ZONE PRINCIPALE -->
+            <div class="vocab-center-col">
+
+                <!-- FILTRES -->
+                <div class="vocab-filters-row">
+                    <div class="vocab-search-box">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="vocab-search-input" placeholder="Rechercher un mot...">
+                    </div>
+                    <div class="vocab-cats" id="category-filters"></div>
+                    <div class="vocab-status-row">
+                        <button class="vocab-status-btn active" data-status="all">Tous</button>
+                        <button class="vocab-status-btn" data-status="mastered" id="filter-mastered">✅ Maîtrisés</button>
+                        <button class="vocab-status-btn" data-status="review" id="filter-review">🔄 À revoir</button>
+                        <button class="vocab-status-btn" data-status="favorites">❤️ Favoris</button>
+                    </div>
+                </div>
+
+                <!-- TABS -->
+                <div class="vocab-tabs-row">
+                    <button class="vocab-tab-btn active" id="tab-flashcards" type="button">
+                        <i data-lucide="layers"></i> Flashcards
+                    </button>
+                    <button class="vocab-tab-btn" id="tab-list" type="button">
+                        <i data-lucide="list"></i> Liste
+                    </button>
+                </div>
+
+                <!-- VUE FLASHCARDS -->
+                <div class="vocab-view" id="view-flashcards">
+
+                    <div class="vocab-card-zone">
+
+                        <div class="vocab-card-counter">
+                            <span id="card-current">1</span> / <span id="card-total">10</span>
+                        </div>
+
+                        <div class="vocab-card-progress-bar">
+                            <div class="vocab-card-progress-fill" id="flashcard-progress-fill" style="width:10%;"></div>
+                        </div>
+
+                        <!-- FLASHCARD FLIP -->
+                        <div class="vocab-flip-scene" id="flashcard-wrapper">
+                            <div class="vocab-flip-card" id="flashcard">
+
+                                <!-- RECTO -->
+                                <div class="vocab-flip-front">
+                                    <div class="vocab-card-label">Title</div>
+                                    <div class="vocab-card-word-line">
+                                        <span class="vocab-card-word" id="card-word">HELLO</span>
+                                        <button class="vocab-card-sound" id="card-audio-front" type="button">
+                                            <i data-lucide="volume-2"></i>
+                                        </button>
+                                    </div>
+                                    <div class="vocab-card-ipa" id="card-ipa">IPA: /'hɛloʊ/</div>
+                                    <div class="vocab-card-context" id="card-context-front">
+                                        Context: Hello (if an opening, context as, connect.)
+                                    </div>
+                                    <div class="vocab-card-cat-tag" id="card-category">🔤 Basics</div>
+                                    <div class="vocab-card-front-footer">
+                                        <button class="vocab-card-fav-btn" id="btn-favorite-inline" type="button">
+                                            <i data-lucide="heart"></i>
+                                            <span>Ajouter aux favoris</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- VERSO -->
+                                <div class="vocab-flip-back">
+                                    <div class="vocab-card-label light">Sub-title</div>
+                                    <div class="vocab-card-word-line">
+                                        <span class="vocab-card-translation" id="card-translation">BONJOUR</span>
+                                        <span class="vocab-card-emoji" id="card-emoji">👋</span>
+                                    </div>
+                                    <div class="vocab-card-translation-sm" id="card-translation-small">Bonjour</div>
+                                    <div class="vocab-card-context light" id="card-context-back">
+                                        Context: Vous son contours et à bonjour ant commete.
+                                    </div>
+                                    <div class="vocab-card-back-footer">
+                                        <button class="vocab-card-back-fav" id="card-fav-back" type="button">
+                                            <i data-lucide="heart"></i>
+                                            <span>Ajouter aux favoris</span>
+                                        </button>
+                                        <button class="vocab-card-report" type="button">
+                                            <i data-lucide="alert-triangle"></i>
+                                            <span>Signaler</span>
+                                        </button>
+                                    </div>
+                                    <button class="vocab-card-sound back-sound" id="card-audio-back" type="button">
+                                        <i data-lucide="volume-2"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- BOUTONS ACTION -->
+                        <div class="vocab-actions">
+                            <button class="vocab-action-btn review" id="btn-review" type="button">
+                                <i data-lucide="rotate-ccw"></i> À revoir
+                            </button>
+                            <button class="vocab-action-btn skip" id="btn-skip" type="button">
+                                <i data-lucide="skip-forward"></i> Passer
+                            </button>
+                            <button class="vocab-action-btn mastered" id="btn-mastered" type="button">
+                                <i data-lucide="check"></i> Je connais
+                            </button>
+                        </div>
+
+                        <button class="vocab-fav-float" id="btn-favorite" type="button">
+                            <i data-lucide="heart"></i>
+                        </button>
+
+                    </div>
+
+                    <!-- RÉSULTAT -->
+                    <div class="vocab-result hidden" id="flashcard-result">
+                        <span class="vocab-result-emoji" id="result-emoji">🎉</span>
+                        <h2>Session terminée !</h2>
+                        <div class="vocab-result-stats">
+                            <div class="vocab-result-stat">
+                                <span id="result-mastered">0</span>
+                                <small>Maîtrisés ✅</small>
+                            </div>
+                            <div class="vocab-result-stat">
+                                <span id="result-review">0</span>
+                                <small>À revoir 🔄</small>
+                            </div>
+                            <div class="vocab-result-stat">
+                                <span id="result-xp">0</span>
+                                <small>XP gagnés ⚡</small>
+                            </div>
+                        </div>
+                        <div class="vocab-result-btns">
+                            <button class="btn-primary" id="btn-restart" type="button">Recommencer</button>
+                            <button class="vocab-btn-sec" id="btn-review-only" type="button">Revoir les difficiles</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- VUE LISTE -->
+                <div class="vocab-view hidden" id="view-list">
+                    <div class="vocab-word-grid" id="word-list"></div>
+                </div>
+
+            </div>
+
+            <!-- DROITE : PANNEAU MOTIVATION -->
+            <aside class="vocab-right-col">
+
+                <!-- MOTIVATION -->
+                <div class="vocab-motivation-card">
+                    <h3 class="vocab-motivation-title">Motivation</h3>
+                    <div class="vocab-robot-wrap">
+                        <div class="vocab-robot">
+                            <div class="vocab-robot-inner">
+                                <div class="vocab-robot-antenna"></div>
+                                <div class="vocab-robot-head">
+                                    <div class="vocab-robot-screen">
+                                        <div class="vocab-robot-eye l"></div>
+                                        <div class="vocab-robot-eye r"></div>
+                                        <div class="vocab-robot-smile"></div>
+                                    </div>
+                                </div>
+                                <div class="vocab-robot-torso">
+                                    <div class="vocab-robot-chest">⚡</div>
+                                </div>
+                                <div class="vocab-robot-legs">
+                                    <div class="vocab-robot-leg"></div>
+                                    <div class="vocab-robot-leg"></div>
+                                </div>
+                            </div>
+                            <div class="vocab-robot-glow"></div>
+                        </div>
+                    </div>
+                    <p class="vocab-motivation-msg">
+                        Continue ton apprentissage,<br>
+                        <strong id="motivation-name">Djybanks</strong> ! 🔥
+                    </p>
+                </div>
+
+                <!-- STATS -->
+                <div class="vocab-stats-col">
+
+                    <div class="vocab-stat-item">
+                        <div class="vocab-stat-row">
+                            <span class="vocab-stat-icon">📚</span>
+                            <span class="vocab-stat-label">Flashcards étudiées</span>
+                            <span class="vocab-stat-val"><span id="stat-studied">0</span>/100</span>
+                        </div>
+                        <div class="vocab-stat-track">
+                            <div class="vocab-stat-fill blue" id="stat-studied-bar" style="width:0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="vocab-stat-item">
+                        <div class="vocab-stat-row">
+                            <span class="vocab-stat-icon">⚡</span>
+                            <span class="vocab-stat-label">XP gagnés</span>
+                            <span class="vocab-stat-val">+<span id="stat-xp-gained">0</span> XP</span>
+                        </div>
+                        <div class="vocab-stat-track">
+                            <div class="vocab-stat-fill green" id="stat-xp-bar" style="width:0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="vocab-stat-item">
+                        <div class="vocab-stat-row">
+                            <span class="vocab-stat-icon">🔥</span>
+                            <span class="vocab-stat-label">Streak du jour</span>
+                            <span class="vocab-stat-val"><span id="stat-streak-vocab">0</span> jours</span>
+                        </div>
+                        <div class="vocab-stat-track">
+                            <div class="vocab-stat-fill orange" id="stat-streak-bar" style="width:0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="vocab-stat-item">
+                        <div class="vocab-stat-row">
+                            <span class="vocab-stat-icon">✅</span>
+                            <span class="vocab-stat-label">Mots maîtrisés</span>
+                            <span class="vocab-stat-val"><span id="stat-mastered-count">0</span> mots</span>
+                        </div>
+                        <div class="vocab-stat-track">
+                            <div class="vocab-stat-fill purple" id="stat-mastered-bar" style="width:0%"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="js/streak.js"></script>
+<script src="data/vocabulary.js"></script>
+<script src="js/vocabulary.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

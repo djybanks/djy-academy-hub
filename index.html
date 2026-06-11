@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJY Academy Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="images/logo.png" alt="Logo" class="nav-logo">
+            <span class="nav-brand">DJY Academy Hub</span>
+        </div>
+        <div class="nav-right">
+            <button id="lang-btn" class="btn-icon">FR / EN / ES</button>
+            <button id="theme-btn" class="btn-icon">🌙</button>
+            <a href="login.html" id="nav-login" class="nav-link">Se connecter</a>
+            <a href="login.html" id="nav-signup" class="btn-primary">Commencer gratuitement</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 id="hero-title">Apprendre intelligemment. Progresser réellement. Construire son avenir.</h1>
+        <p id="hero-text">DJY ACADEMY HUB est une plateforme d'apprentissage intelligente qui rend l'étude des langues simple, interactive et motivante, avec des cours, quiz et suivi de progression.</p>
+        <a href="#languages" class="btn-primary btn-large" id="hero-btn">Commencer maintenant</a>
+    </section>
+
+    <section id="languages">
+        <h2 id="languages-title">Choisis ta langue</h2>
+        <div class="language-cards">
+
+            <div class="lang-card" id="card-en">
+                <img src="images/flags/en.png" alt="English" class="flag-img">
+                <h3>English</h3>
+                <p id="card-en-text">Niveau débutant à avancé</p>
+                <button onclick="selectLanguage('english')" id="card-en-btn">Commencer</button>
+            </div>
+
+            <div class="lang-card" id="card-fr">
+                <img src="images/flags/fr.png" alt="Français" class="flag-img">
+                <h3>Français</h3>
+                <p id="card-fr-text">Niveau débutant à avancé</p>
+                <button onclick="selectLanguage('french')" id="card-fr-btn">Commencer</button>
+            </div>
+
+            <div class="lang-card" id="card-es">
+                <img src="images/flags/es.png" alt="Español" class="flag-img">
+                <h3>Español</h3>
+                <p id="card-es-text">Niveau débutant à avancé</p>
+                <button onclick="selectLanguage('spanish')" id="card-es-btn">Commencer</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 DJY Academy Hub — Tous droits réservés</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres — DJY Academy Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dark-dashboard">
+
+<div class="st-page">
+
+    <!-- SIDEBAR -->
+    <aside class="st-sidebar">
+        <div class="st-sidebar-logo">
+            <div class="st-sidebar-icon"><i data-lucide="zap"></i></div>
+            <span class="st-sidebar-brand">DJY ACADEMY HUB</span>
+        </div>
+        <nav class="st-sidebar-nav">
+            <a href="dashboard.html" class="st-nav-link"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+            <a href="lessons.html" class="st-nav-link"><i data-lucide="book-open"></i><span>Cours</span></a>
+            <a href="quiz.html" class="st-nav-link"><i data-lucide="help-circle"></i><span>Quiz</span></a>
+            <a href="vocabulary.html" class="st-nav-link"><i data-lucide="languages"></i><span>Vocabulaire</span></a>
+            <a href="progress.html" class="st-nav-link"><i data-lucide="trending-up"></i><span>Progression</span></a>
+            <a href="profile.html" class="st-nav-link"><i data-lucide="user"></i><span>Profil</span></a>
+            <a href="settings.html" class="st-nav-link active"><i data-lucide="settings"></i><span>Paramètres</span></a>
+        </nav>
+        <div class="st-sidebar-premium">
+            <span class="st-premium-crown">👑</span>
+            <p class="st-premium-title">Passez à Premium</p>
+            <p class="st-premium-sub">Débloquez tout le contenu</p>
+            <button class="st-premium-btn">Découvrir →</button>
+        </div>
+        <a href="#" class="st-nav-logout" id="side-logout">
+            <i data-lucide="log-out"></i><span>Déconnexion</span>
+        </a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="st-main">
+
+        <div class="st-bg" aria-hidden="true">
+            <div class="st-glow-blue"></div>
+            <div class="st-glow-purple"></div>
+            <div id="st-particles"></div>
+        </div>
+
+        <!-- HEADER — structure identique dashboard -->
+        <header class="st-header">
+            <div class="st-header-left">
+                <h1 class="st-header-title" id="st-title">Paramètres</h1>
+                <p class="st-header-sub" id="st-subtitle">Personnalise ton expérience</p>
+            </div>
+
+            <div class="st-header-right">
+
+                <!-- XP Badge -->
+                <span class="st-xp-badge">⚡ <span id="total-xp">0</span> XP</span>
+
+                <!-- Lang selector -->
+                <div class="st-lang-btn" id="st-lang-selector">
+                    <img src="images/flags/fr.png" id="header-flag" class="st-flag" alt="Français">
+                    <span id="st-lang-text">Français</span>
+                    <i data-lucide="chevron-down"></i>
+                    <div class="st-lang-menu hidden" id="st-lang-dropdown">
+                        <div class="st-lang-item" data-lang="fr">
+                            <img src="images/flags/fr.png" alt="FR"> Français
+                        </div>
+                        <div class="st-lang-item" data-lang="en">
+                            <img src="images/flags/en.png" alt="EN"> English
+                        </div>
+                        <div class="st-lang-item" data-lang="es">
+                            <img src="images/flags/es.png" alt="ES"> Español
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theme toggle -->
+                <button class="st-icon-btn" id="theme-btn" type="button">
+                    <i data-lucide="moon" id="theme-icon-moon"></i>
+                    <i data-lucide="sun" id="theme-icon-sun" style="display:none;"></i>
+                </button>
+
+                <!-- Notif -->
+                <div class="st-notif-btn" id="st-notif-btn">
+                    <i data-lucide="bell"></i>
+                    <span class="st-notif-dot" id="notif-count">0</span>
+                </div>
+
+                <!-- User block avec dropdown -->
+                <div class="st-dash-user" id="st-user-trigger">
+                    <div class="st-dash-avatar" id="header-avatar">DJ</div>
+                    <div class="st-dash-user-info">
+                        <span class="st-dash-user-name" id="header-name">Djybanks</span>
+                        <span class="st-dash-user-level" id="header-lvl">Niveau 1</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="st-user-chevron"></i>
+
+                    <div class="st-user-dropdown hidden" id="st-user-dropdown">
+                        <div class="st-user-dropdown-header">
+                            <div class="st-dropdown-avatar" id="st-dropdown-avatar">DJ</div>
+                            <div class="st-dropdown-user-info">
+                                <span class="st-dropdown-name" id="st-dropdown-name">Djybanks</span>
+                                <span class="st-dropdown-email" id="st-dropdown-email">email@example.com</span>
+                            </div>
+                        </div>
+                        <div class="st-user-dropdown-stats">
+                            <div class="st-dropdown-stat">
+                                <i data-lucide="award"></i>
+                                <span id="st-dropdown-level">Niveau 1 — Débutant</span>
+                            </div>
+                            <div class="st-dropdown-stat">
+                                <i data-lucide="zap"></i>
+                                <span id="st-dropdown-xp">0 XP</span>
+                            </div>
+                            <div class="st-dropdown-stat">
+                                <i data-lucide="flame"></i>
+                                <span id="st-dropdown-streak">0 jours de série</span>
+                            </div>
+                        </div>
+                        <div class="st-user-dropdown-colors">
+                            <span class="st-dropdown-label">Couleur de l'avatar</span>
+                            <div class="st-avatar-colors">
+                                <div class="st-avatar-color active" data-color="blue" style="background:linear-gradient(135deg,#2563EB,#60A5FA);"></div>
+                                <div class="st-avatar-color" data-color="purple" style="background:linear-gradient(135deg,#A855F7,#C084FC);"></div>
+                                <div class="st-avatar-color" data-color="green" style="background:linear-gradient(135deg,#22C55E,#4ADE80);"></div>
+                                <div class="st-avatar-color" data-color="orange" style="background:linear-gradient(135deg,#F97316,#FB923C);"></div>
+                                <div class="st-avatar-color" data-color="pink" style="background:linear-gradient(135deg,#EC4899,#F472B6);"></div>
+                                <div class="st-avatar-color" data-color="red" style="background:linear-gradient(135deg,#EF4444,#F87171);"></div>
+                            </div>
+                        </div>
+                        <div class="st-user-dropdown-links">
+                            <a href="profile.html"><i data-lucide="user"></i>Voir le profil</a>
+                            <a href="settings.html"><i data-lucide="settings"></i>Paramètres</a>
+                            <a href="#" class="st-premium-link"><i data-lucide="crown"></i>Passer Premium</a>
+                            <a href="#" id="st-dropdown-logout" class="st-logout-link">
+                                <i data-lucide="log-out"></i>Déconnexion
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- BODY -->
+        <div class="st-body">
+
+            <!-- LEFT -->
+            <div class="st-left">
+
+                <!-- CARD PROFIL -->
+                <div class="st-card">
+                    <h3 class="st-card-title" id="st-profile-title">👤 Profil</h3>
+                    <div class="st-profile-section">
+                        <div class="st-profile-avatar-wrap">
+                            <div class="st-profile-avatar" id="st-profile-avatar">DJ</div>
+                            <div class="st-profile-colors">
+                                <div class="st-color active" data-color="blue" style="background:linear-gradient(135deg,#2563EB,#60A5FA);"></div>
+                                <div class="st-color" data-color="purple" style="background:linear-gradient(135deg,#A855F7,#C084FC);"></div>
+                                <div class="st-color" data-color="green" style="background:linear-gradient(135deg,#22C55E,#4ADE80);"></div>
+                                <div class="st-color" data-color="orange" style="background:linear-gradient(135deg,#F97316,#FB923C);"></div>
+                                <div class="st-color" data-color="pink" style="background:linear-gradient(135deg,#EC4899,#F472B6);"></div>
+                                <div class="st-color" data-color="red" style="background:linear-gradient(135deg,#EF4444,#F87171);"></div>
+                            </div>
+                        </div>
+                        <div class="st-profile-fields">
+                            <div class="st-field">
+                                <label id="st-label-name">Nom d'utilisateur</label>
+                                <input type="text" id="st-input-name" maxlength="20" placeholder="Djybanks">
+                            </div>
+                            <div class="st-field">
+                                <label id="st-label-email">Email</label>
+                                <input type="email" id="st-input-email" placeholder="djybanks@email.com">
+                            </div>
+                            <div class="st-field">
+                                <label id="st-label-bio">Bio</label>
+                                <input type="text" id="st-input-bio" maxlength="100" placeholder="Building my language future...">
+                            </div>
+                            <button class="st-btn-save" id="st-save-profile" type="button">
+                                <i data-lucide="check"></i>
+                                <span id="st-save-text">Enregistrer les modifications</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD APPARENCE -->
+                <div class="st-card">
+                    <h3 class="st-card-title" id="st-appearance-title">🎨 Apparence</h3>
+                    <div class="st-section-row">
+                        <span class="st-section-label" id="st-label-theme">Mode d'affichage</span>
+                        <div class="st-theme-options">
+                            <div class="st-theme-option active" id="st-theme-dark" data-theme="dark">
+                                <span class="st-theme-icon">🌙</span>
+                                <span class="st-theme-name" id="st-dark-label">Sombre</span>
+                            </div>
+                            <div class="st-theme-option" id="st-theme-light" data-theme="light">
+                                <span class="st-theme-icon">☀️</span>
+                                <span class="st-theme-name" id="st-light-label">Clair</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="st-section-row">
+                        <span class="st-section-label" id="st-label-accent">Couleur d'accent</span>
+                        <div class="st-accent-colors">
+                            <div class="st-accent active" data-accent="#2563EB" style="background:#2563EB;"></div>
+                            <div class="st-accent" data-accent="#A855F7" style="background:#A855F7;"></div>
+                            <div class="st-accent" data-accent="#22C55E" style="background:#22C55E;"></div>
+                            <div class="st-accent" data-accent="#F97316" style="background:#F97316;"></div>
+                            <div class="st-accent" data-accent="#EC4899" style="background:#EC4899;"></div>
+                            <div class="st-accent" data-accent="#EF4444" style="background:#EF4444;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD LANGUE -->
+                <div class="st-card">
+                    <h3 class="st-card-title" id="st-lang-title">🌍 Langue</h3>
+                    <div class="st-section-row">
+                        <span class="st-section-label" id="st-label-interface">Langue de l'interface</span>
+                        <div class="st-lang-options" id="st-interface-langs">
+                            <div class="st-lang-option" data-ilang="fr">
+                                <img src="images/flags/fr.png" alt="FR">
+                                <span>Français</span>
+                            </div>
+                            <div class="st-lang-option" data-ilang="en">
+                                <img src="images/flags/en.png" alt="EN">
+                                <span>English</span>
+                            </div>
+                            <div class="st-lang-option" data-ilang="es">
+                                <img src="images/flags/es.png" alt="ES">
+                                <span>Español</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="st-section-row">
+                        <span class="st-section-label" id="st-label-learning">Langue d'apprentissage</span>
+                        <div class="st-lang-options" id="st-learning-langs">
+                            <div class="st-lang-option" data-llang="english">
+                                <img src="images/flags/en.png" alt="EN">
+                                <span>English</span>
+                                <small>25 leçons</small>
+                            </div>
+                            <div class="st-lang-option" data-llang="french">
+                                <img src="images/flags/fr.png" alt="FR">
+                                <span>Français</span>
+                                <small>25 leçons</small>
+                            </div>
+                            <div class="st-lang-option" data-llang="spanish">
+                                <img src="images/flags/es.png" alt="ES">
+                                <span>Español</span>
+                                <small>25 leçons</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD NOTIFICATIONS -->
+                <div class="st-card">
+                    <h3 class="st-card-title" id="st-notif-title">🔔 Notifications</h3>
+                    <div class="st-toggles">
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">📧</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-notif-1">Notifications par email</span>
+                                <span class="st-toggle-desc" id="st-notif-1d">Recevoir des emails de progression</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" checked data-key="notif_email">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">🔔</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-notif-2">Rappel quotidien</span>
+                                <span class="st-toggle-desc" id="st-notif-2d">Rappel d'apprentissage chaque jour</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" checked data-key="notif_daily">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">🏆</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-notif-3">Badges et achievements</span>
+                                <span class="st-toggle-desc" id="st-notif-3d">Alertes quand tu gagnes un badge</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" checked data-key="notif_badges">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">📊</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-notif-4">Résumé hebdomadaire</span>
+                                <span class="st-toggle-desc" id="st-notif-4d">Rapport de progression chaque semaine</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" data-key="notif_weekly">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">🎯</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-notif-5">Objectifs atteints</span>
+                                <span class="st-toggle-desc" id="st-notif-5d">Alertes quand tu atteins un objectif</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" checked data-key="notif_goals">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD CONFIDENTIALITÉ -->
+                <div class="st-card">
+                    <h3 class="st-card-title" id="st-privacy-title">🔒 Confidentialité</h3>
+                    <div class="st-toggles">
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">👤</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-priv-1">Profil public</span>
+                                <span class="st-toggle-desc" id="st-priv-1d">Les autres peuvent voir ton profil</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" data-key="priv_public">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">📊</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-priv-2">Afficher les statistiques</span>
+                                <span class="st-toggle-desc" id="st-priv-2d">Tes stats sont visibles publiquement</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" checked data-key="priv_stats">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-toggle-row">
+                            <span class="st-toggle-icon">🏆</span>
+                            <div class="st-toggle-info">
+                                <span class="st-toggle-name" id="st-priv-3">Afficher les badges</span>
+                                <span class="st-toggle-desc" id="st-priv-3d">Tes badges sont visibles publiquement</span>
+                            </div>
+                            <label class="st-switch">
+                                <input type="checkbox" checked data-key="priv_badges">
+                                <span class="st-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD PRÉFÉRENCES D'APPRENTISSAGE (nouveau) -->
+                <div class="st-card">
+                    <h3 class="st-card-title">📚 Préférences d'apprentissage</h3>
+                    <div class="st-pref-grid">
+                        <div class="st-pref-row">
+                            <div class="st-pref-info">
+                                <span class="st-pref-icon">⚡</span>
+                                <div>
+                                    <span class="st-pref-name" id="st-pref-xp-label">Objectif XP quotidien</span>
+                                    <span class="st-pref-desc" id="st-pref-xp-desc">XP à gagner chaque jour</span>
+                                </div>
+                            </div>
+                            <div class="st-pref-control">
+                                <button class="st-pref-btn" id="st-xp-minus" type="button">−</button>
+                                <span class="st-pref-value" id="st-xp-goal">50</span>
+                                <button class="st-pref-btn" id="st-xp-plus" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="st-pref-row">
+                            <div class="st-pref-info">
+                                <span class="st-pref-icon">📖</span>
+                                <div>
+                                    <span class="st-pref-name" id="st-pref-lessons-label">Leçons par jour</span>
+                                    <span class="st-pref-desc" id="st-pref-lessons-desc">Nombre de leçons quotidiennes</span>
+                                </div>
+                            </div>
+                            <div class="st-pref-control">
+                                <button class="st-pref-btn" id="st-lessons-minus" type="button">−</button>
+                                <span class="st-pref-value" id="st-lessons-goal">3</span>
+                                <button class="st-pref-btn" id="st-lessons-plus" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="st-pref-row">
+                            <div class="st-pref-info">
+                                <span class="st-pref-icon">🚀</span>
+                                <div>
+                                    <span class="st-pref-name" id="st-pref-pace-label">Rythme d'apprentissage</span>
+                                    <span class="st-pref-desc" id="st-pref-pace-desc">Intensité de ta progression</span>
+                                </div>
+                            </div>
+                            <div class="st-pace-options">
+                                <button class="st-pace-btn" data-pace="casual" type="button">Décontracté</button>
+                                <button class="st-pace-btn active" data-pace="regular" type="button">Régulier</button>
+                                <button class="st-pace-btn" data-pace="intense" type="button">Intensif</button>
+                            </div>
+                        </div>
+                        <div class="st-pref-row">
+                            <div class="st-pref-info">
+                                <span class="st-pref-icon">🕐</span>
+                                <div>
+                                    <span class="st-pref-name" id="st-pref-time-label">Heure de rappel</span>
+                                    <span class="st-pref-desc" id="st-pref-time-desc">Rappel quotidien d'apprentissage</span>
+                                </div>
+                            </div>
+                            <input type="time" class="st-time-input" id="st-reminder-time" value="08:00">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD SAUVEGARDE & SYNC (nouveau) -->
+                <div class="st-card">
+                    <h3 class="st-card-title">💾 Sauvegarde & Synchronisation</h3>
+                    <div class="st-sync-rows">
+                        <div class="st-sync-row">
+                            <div class="st-sync-info">
+                                <span class="st-sync-icon">✅</span>
+                                <div>
+                                    <span class="st-sync-name">Statut de sauvegarde</span>
+                                    <span class="st-sync-detail" id="st-sync-status">Données sauvegardées localement</span>
+                                </div>
+                            </div>
+                            <span class="st-sync-badge success">Actif</span>
+                        </div>
+                        <div class="st-sync-row">
+                            <div class="st-sync-info">
+                                <span class="st-sync-icon">🕐</span>
+                                <div>
+                                    <span class="st-sync-name">Dernière sauvegarde</span>
+                                    <span class="st-sync-detail" id="st-last-save">—</span>
+                                </div>
+                            </div>
+                            <button class="st-btn-sync" id="st-save-now" type="button">
+                                <i data-lucide="save"></i> Sauvegarder
+                            </button>
+                        </div>
+                        <div class="st-sync-row">
+                            <div class="st-sync-info">
+                                <span class="st-sync-icon">📤</span>
+                                <div>
+                                    <span class="st-sync-name">Exporter les données</span>
+                                    <span class="st-sync-detail">Télécharger toutes tes données</span>
+                                </div>
+                            </div>
+                            <button class="st-btn-sync" id="st-export-btn" type="button">
+                                <i data-lucide="download"></i> Exporter
+                            </button>
+                        </div>
+                        <div class="st-sync-row">
+                            <div class="st-sync-info">
+                                <span class="st-sync-icon">📥</span>
+                                <div>
+                                    <span class="st-sync-name">Importer les données</span>
+                                    <span class="st-sync-detail">Restaurer depuis un fichier</span>
+                                </div>
+                            </div>
+                            <label class="st-btn-sync" for="st-import-file">
+                                <i data-lucide="upload"></i> Importer
+                            </label>
+                            <input type="file" id="st-import-file" accept=".json" style="display:none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD DANGER -->
+                <div class="st-card st-danger-card">
+                    <h3 class="st-card-title st-danger-title" id="st-account-title">⚠️ Gestion du compte</h3>
+                    <div class="st-danger-rows">
+                        <div class="st-danger-row">
+                            <div class="st-danger-info">
+                                <span class="st-danger-icon">🔄</span>
+                                <div>
+                                    <span class="st-danger-name" id="st-reset-name">Réinitialiser la progression</span>
+                                    <span class="st-danger-desc" id="st-reset-desc">Supprime toutes tes données de progression</span>
+                                </div>
+                            </div>
+                            <button class="st-btn-danger outline" id="st-reset-btn" type="button">Réinitialiser</button>
+                        </div>
+                        <div class="st-danger-row">
+                            <div class="st-danger-info">
+                                <span class="st-danger-icon">🗑️</span>
+                                <div>
+                                    <span class="st-danger-name" id="st-delete-name">Supprimer le compte</span>
+                                    <span class="st-danger-desc" id="st-delete-desc">Supprime définitivement ton compte</span>
+                                </div>
+                            </div>
+                            <button class="st-btn-danger solid" id="st-delete-btn" type="button">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END LEFT -->
+
+            <!-- RIGHT -->
+            <aside class="st-right">
+
+                <div class="st-card st-preview-card">
+                    <div class="st-preview-avatar" id="st-preview-avatar">DJ</div>
+                    <h3 class="st-preview-name" id="st-preview-name">Djybanks</h3>
+                    <p class="st-preview-handle" id="st-preview-handle">@djybanks</p>
+                    <span class="st-preview-pill" id="st-preview-pill">Niveau 1 — Débutant</span>
+                    <p class="st-preview-join" id="st-preview-join">Membre depuis le 1 janvier 2024</p>
+                    <a href="profile.html" class="st-preview-link">Voir le profil →</a>
+                </div>
+
+                <div class="st-card st-level-card">
+                    <h3 class="st-card-title" id="st-lvl-title">Ton niveau</h3>
+                    <div class="st-lvl-big" id="st-lvl-big">Niveau 1</div>
+                    <div class="st-lvl-sub" id="st-lvl-sub">Débutant</div>
+                    <div class="st-lvl-bar">
+                        <div class="st-lvl-fill" id="st-lvl-fill" style="width:0%"></div>
+                    </div>
+                    <span class="st-lvl-xp" id="st-lvl-xp">0 / 100 XP</span>
+                </div>
+
+                <div class="st-card st-motivation-card">
+                    <h3 class="st-motivation-title" id="st-motiv-title">Motivation</h3>
+                    <div class="st-robot-wrap">
+                        <div class="st-robot">
+                            <div class="st-robot-inner">
+                                <div class="st-robot-antenna"></div>
+                                <div class="st-robot-head">
+                                    <div class="st-robot-screen">
+                                        <div class="st-robot-eye l"></div>
+                                        <div class="st-robot-eye r"></div>
+                                        <div class="st-robot-smile"></div>
+                                    </div>
+                                </div>
+                                <div class="st-robot-torso">
+                                    <div class="st-robot-chest">⚡</div>
+                                </div>
+                                <div class="st-robot-legs">
+                                    <div class="st-robot-leg"></div>
+                                    <div class="st-robot-leg"></div>
+                                </div>
+                            </div>
+                            <div class="st-robot-glow"></div>
+                        </div>
+                    </div>
+                    <p class="st-motivation-msg">
+                        Personnalise ton expérience,<br>
+                        <strong id="st-motivation-name">Djybanks</strong> ! ⚙️
+                    </p>
+                </div>
+
+                <div class="st-card st-security-card">
+                    <h3 class="st-card-title" id="st-security-title">🔒 Sécurité</h3>
+                    <div class="st-security-rows">
+                        <div class="st-security-row">
+                            <span class="st-security-icon">🔑</span>
+                            <div class="st-security-info">
+                                <span class="st-security-name" id="st-sec-1">Mot de passe</span>
+                                <span class="st-security-detail" id="st-sec-1d">Modifié il y a 30 jours</span>
+                            </div>
+                            <button class="st-btn-sec" id="st-change-pwd" type="button">Modifier</button>
+                        </div>
+                        <div class="st-security-row">
+                            <span class="st-security-icon">📱</span>
+                            <div class="st-security-info">
+                                <span class="st-security-name" id="st-sec-2">Appareil connecté</span>
+                                <span class="st-security-detail">Chrome — Windows 11</span>
+                            </div>
+                        </div>
+                        <div class="st-security-row">
+                            <span class="st-security-icon">🕐</span>
+                            <div class="st-security-info">
+                                <span class="st-security-name" id="st-sec-3">Dernière connexion</span>
+                                <span class="st-security-detail" id="st-sec-3d">Aujourd'hui</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+            <!-- END RIGHT -->
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="st-footer">
+            <div class="st-footer-left">
+                <span>🌍</span>
+                <p class="st-footer-quote" id="st-footer-quote"></p>
+            </div>
+            <div class="st-footer-right">
+                <span class="st-footer-share">Partage tes progrès</span>
+                <div class="st-footer-socials">
+                    <a href="#" class="st-social" data-platform="instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="#" class="st-social" data-platform="twitter">
+                        <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="#" class="st-social" data-platform="youtube">
+                        <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                    <a href="#" class="st-social" data-platform="discord">
+                        <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.12-.098.246-.198.373-.292a.074.074 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084-.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    </a>
+                    <a href="#" class="st-social" data-platform="facebook">
+                        <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+</div>
+
+<script src="js/streak.js"></script>
+<script src="js/settings.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

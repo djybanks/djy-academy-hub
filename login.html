@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — DJY Academy Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="login-body">
+
+    <div class="login-bg">
+        <div class="login-bg-circle circle-1"></div>
+        <div class="login-bg-circle circle-2"></div>
+        <div class="login-bg-circle circle-3"></div>
+    </div>
+
+    <div class="login-wrapper">
+        <div class="login-container">
+
+            <!-- LOGO -->
+            <div class="login-logo">
+                <div class="login-logo-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <span>DJY Academy Hub</span>
+            </div>
+
+            <!-- TABS -->
+            <div class="login-tabs" id="login-tabs">
+                <button class="login-tab active" id="tab-login">Se connecter</button>
+                <button class="login-tab" id="tab-signup">S'inscrire</button>
+            </div>
+
+            <!-- VUE 1 : LOGIN -->
+            <div class="login-view" id="view-login">
+                <h2>Bon retour !</h2>
+                <p class="login-subtitle">Connecte-toi pour continuer ton apprentissage</p>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="mail"></i>
+                        <input type="email" id="login-email" placeholder="ton@email.com">
+                    </div>
+                    <span class="input-error hidden" id="login-email-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="lock"></i>
+                        <input type="password" id="login-password" placeholder="••••••••">
+                        <button class="toggle-password" id="toggle-login-password" type="button">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                    <span class="input-error hidden" id="login-password-error"></span>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remember-me">
+                        <span>Se souvenir de moi</span>
+                    </label>
+                    <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+                </div>
+
+                <button class="btn-login" id="login-btn" type="button">
+                    <i data-lucide="log-in"></i>
+                    Se connecter
+                </button>
+
+                <div class="login-divider"><span>ou continuer avec</span></div>
+
+                <div class="social-buttons">
+                    <button class="social-btn" type="button">
+                        <i data-lucide="chrome"></i>Google
+                    </button>
+                    <button class="social-btn" type="button">
+                        <i data-lucide="github"></i>GitHub
+                    </button>
+                </div>
+
+                <p class="login-switch">
+                    Pas encore de compte ?
+                    <a href="#" id="switch-to-signup">S'inscrire gratuitement</a>
+                </p>
+            </div>
+
+            <!-- VUE 2 : SIGNUP -->
+            <div class="login-view hidden" id="view-signup">
+                <h2>Créer un compte</h2>
+                <p class="login-subtitle">Rejoins DJY Academy Hub gratuitement</p>
+
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="user"></i>
+                        <input type="text" id="signup-fullname" placeholder="Jean Dupont">
+                    </div>
+                    <span class="input-error hidden" id="signup-fullname-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Nom d'utilisateur</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="at-sign"></i>
+                        <input type="text" id="signup-username" placeholder="jeandupont" maxlength="20">
+                    </div>
+                    <span class="input-error hidden" id="signup-username-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="mail"></i>
+                        <input type="email" id="signup-email" placeholder="ton@email.com">
+                    </div>
+                    <span class="input-error hidden" id="signup-email-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="lock"></i>
+                        <input type="password" id="signup-password" placeholder="Min. 6 caractères">
+                        <button class="toggle-password" id="toggle-signup-password" type="button">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                    <span class="input-error hidden" id="signup-password-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmer le mot de passe</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="lock"></i>
+                        <input type="password" id="signup-confirm" placeholder="••••••••">
+                    </div>
+                    <span class="input-error hidden" id="signup-confirm-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Pays</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="map-pin"></i>
+                        <select id="signup-country">
+                            <option value="">Choisir...</option>
+                            <option value="fr">France</option>
+                            <option value="be">Belgique</option>
+                            <option value="ch">Suisse</option>
+                            <option value="ca">Canada</option>
+                            <option value="ma">Maroc</option>
+                            <option value="dz">Algérie</option>
+                            <option value="tn">Tunisie</option>
+                            <option value="sn">Sénégal</option>
+                            <option value="ci">Côte d'Ivoire</option>
+                            <option value="cm">Cameroun</option>
+                            <option value="ht">Haïti</option>
+                            <option value="us">États-Unis</option>
+                            <option value="gb">Royaume-Uni</option>
+                            <option value="es">Espagne</option>
+                            <option value="mx">Mexique</option>
+                            <option value="br">Brésil</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+                    <span class="input-error hidden" id="signup-country-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Date de naissance</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="calendar"></i>
+                        <input type="date" id="signup-birthdate">
+                    </div>
+                    <span class="input-error hidden" id="signup-birthdate-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Langue maternelle</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="globe"></i>
+                        <select id="signup-native-lang">
+                            <option value="">Choisir...</option>
+                            <option value="fr">Français</option>
+                            <option value="en">Anglais</option>
+                            <option value="es">Espagnol</option>
+                            <option value="ar">Arabe</option>
+                            <option value="pt">Portugais</option>
+                            <option value="de">Allemand</option>
+                            <option value="it">Italien</option>
+                            <option value="zh">Chinois</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+                    <span class="input-error hidden" id="signup-native-lang-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Langue à apprendre</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="book-open"></i>
+                        <select id="signup-target-lang">
+                            <option value="">Choisir...</option>
+                            <option value="english">Anglais</option>
+                            <option value="french">Français</option>
+                            <option value="spanish">Espagnol</option>
+                        </select>
+                    </div>
+                    <span class="input-error hidden" id="signup-target-lang-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Niveau actuel</label>
+                    <div class="level-selector">
+                        <button class="level-btn active" data-level="beginner" type="button">
+                            <i data-lucide="star"></i>
+                            Débutant
+                        </button>
+                        <button class="level-btn" data-level="intermediate" type="button">
+                            <i data-lucide="zap"></i>
+                            Intermédiaire
+                        </button>
+                        <button class="level-btn" data-level="advanced" type="button">
+                            <i data-lucide="trophy"></i>
+                            Avancé
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="accept-terms">
+                        <span>J'accepte les <a href="#">conditions d'utilisation</a></span>
+                    </label>
+                </div>
+
+                <button class="btn-login" id="signup-btn" type="button">
+                    <i data-lucide="user-plus"></i>
+                    Créer mon compte
+                </button>
+
+                <p class="login-switch">
+                    Déjà un compte ?
+                    <a href="#" id="switch-to-login">Se connecter</a>
+                </p>
+            </div>
+
+            <!-- VUE 3 : OBJECTIFS -->
+            <div class="login-view hidden" id="view-objectives">
+                <h2>Tes objectifs 🎯</h2>
+                <p class="login-subtitle">Pourquoi tu veux apprendre cette langue ?</p>
+
+                <div class="objectives-list">
+                    <div class="objective-card" data-objective="travel">
+                        <span class="objective-icon">✈️</span>
+                        <div class="objective-text">
+                            <h3>Voyager</h3>
+                            <p>Explorer le monde</p>
+                        </div>
+                    </div>
+
+                    <div class="objective-card" data-objective="work">
+                        <span class="objective-icon">💼</span>
+                        <div class="objective-text">
+                            <h3>Travail</h3>
+                            <p>Booster ta carrière</p>
+                        </div>
+                    </div>
+
+                    <div class="objective-card" data-objective="conversation">
+                        <span class="objective-icon">💬</span>
+                        <div class="objective-text">
+                            <h3>Conversation</h3>
+                            <p>Parler avec les autres</p>
+                        </div>
+                    </div>
+
+                    <div class="objective-card" data-objective="studies">
+                        <span class="objective-icon">📚</span>
+                        <div class="objective-text">
+                            <h3>Études</h3>
+                            <p>Réussir à l'école</p>
+                        </div>
+                    </div>
+
+                    <div class="objective-card" data-objective="business">
+                        <span class="objective-icon">📈</span>
+                        <div class="objective-text">
+                            <h3>Business</h3>
+                            <p>Développer ton business</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-login" id="save-objectives-btn" type="button">
+                    <i data-lucide="arrow-right"></i>
+                    Commencer l'apprentissage
+                </button>
+
+                <p class="login-switch">
+                    Déjà un compte ?
+                    <a href="#" id="objectives-to-login">Se connecter</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/streak.js"></script>
+    <script src="js/login.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
