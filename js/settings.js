@@ -1,4 +1,3 @@
-// GARDE AUTH
 if (localStorage.getItem('isLoggedIn') !== 'true') {
     window.location.href = 'login.html';
 }
@@ -6,7 +5,7 @@ if (localStorage.getItem('isLoggedIn') !== 'true') {
 // ================================
 // API
 // ================================
-const API = 'http://localhost:3000';
+const API = 'https://djy-backend.onrender.com';
 
 // ================================
 // SYNC SUPABASE

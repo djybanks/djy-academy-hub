@@ -38,7 +38,7 @@ window.getLevelInfo = getLevelInfo;
 window.levelSystem = levelSystem;
 
 // URL BACKEND
-const API = 'http://localhost:3000';
+const API = 'https://djy-backend.onrender.com';
 
 // VÉRIFIER SI DÉJÀ CONNECTÉ
 if (localStorage.getItem('isLoggedIn') === 'true') {

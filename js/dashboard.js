@@ -1,5 +1,5 @@
 // SYNCHRONISATION SUPABASE AU CHARGEMENT
-const API = 'http://localhost:3000';
+const API = 'https://djy-backend.onrender.com';
 
 async function syncUserData() {
     const token = localStorage.getItem('authToken');
@@ -189,7 +189,7 @@ const translations = {
         quizDesc: "Prueba tus conocimientos con un quiz aleatorio",
         startQuiz: "Empezar un quiz",
         ranking: "Tu clasificación",
-        badges: "Insignias recientes",
+        badges: "Insignias récentes",
         share: "Comparte tu progreso"
     }
 };
@@ -241,7 +241,7 @@ avatarColors.forEach(colorBtn => {
         const color = colorBtn.style.background;
         avatarColors.forEach(b => b.classList.remove('active'));
         colorBtn.classList.add('active');
-        avatars.forEach(a => a.style.background = color);
+        avatrams.forEach(a => a.style.background = color);
         localStorage.setItem('userAvatarColor', color);
     });
 });
