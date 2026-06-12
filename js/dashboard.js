@@ -189,7 +189,7 @@ const translations = {
         quizDesc: "Prueba tus conocimientos con un quiz aleatorio",
         startQuiz: "Empezar un quiz",
         ranking: "Tu clasificación",
-        badges: "Insignias récentes",
+        badges: "Insignias recientes",
         share: "Comparte tu progreso"
     }
 };
@@ -241,7 +241,7 @@ avatarColors.forEach(colorBtn => {
         const color = colorBtn.style.background;
         avatarColors.forEach(b => b.classList.remove('active'));
         colorBtn.classList.add('active');
-        avatrams.forEach(a => a.style.background = color);
+        avatars.forEach(a => a.style.background = color);
         localStorage.setItem('userAvatarColor', color);
     });
 });
@@ -409,16 +409,52 @@ function renderObjectives() {
 
 renderObjectives();
 
-// 12. CLASSEMENT SIMULÉ
+// 12. CLASSEMENT
 function calculateRanking(xp) {
     const rank = Math.max(1, Math.round(50000 - (xp * 5)));
     const percentile = Math.max(1, Math.round(100 - (xp / 100)));
     return { rank, percentile };
 }
 
-const ranking = calculateRanking(totalXP);
-document.getElementById('ranking-number').textContent = '#' + ranking.rank.toLocaleString();
-document.getElementById('ranking-percent').textContent = 'Top ' + ranking.percentile + '%';
+async function loadLeaderboard() {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        const ranking = calculateRanking(totalXP);
+        document.getElementById('ranking-number').textContent = '#' + ranking.rank.toLocaleString();
+        document.getElementById('ranking-percent').textContent = 'Top ' + ranking.percentile + '%';
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API}/user/leaderboard`);
+        const data = await res.json();
+
+        if (!data.data || data.data.length === 0) {
+            document.getElementById('ranking-number').textContent = '#1';
+            document.getElementById('ranking-percent').textContent = 'Top 1%';
+            return;
+        }
+
+        const userId = localStorage.getItem('userId');
+        const myRank = data.data.find(u => u.id === userId);
+
+        if (myRank) {
+            document.getElementById('ranking-number').textContent = '#' + myRank.rank;
+            document.getElementById('ranking-percent').textContent = 'Top ' + Math.round((myRank.rank / data.data.length) * 100) + '%';
+        } else {
+            const ranking = calculateRanking(totalXP);
+            document.getElementById('ranking-number').textContent = '#' + ranking.rank.toLocaleString();
+            document.getElementById('ranking-percent').textContent = 'Top ' + ranking.percentile + '%';
+        }
+
+    } catch (err) {
+        const ranking = calculateRanking(totalXP);
+        document.getElementById('ranking-number').textContent = '#' + ranking.rank.toLocaleString();
+        document.getElementById('ranking-percent').textContent = 'Top ' + ranking.percentile + '%';
+    }
+}
+
+loadLeaderboard();
 
 // 13. BADGES HEXAGONAUX
 function renderBadgesHex() {
