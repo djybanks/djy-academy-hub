@@ -1,6 +1,24 @@
 // API
 const API = 'https://djy-backend.onrender.com';
 
+// DÉCONNEXION PROPRE
+async function logout() {
+    const token = localStorage.getItem('authToken');
+    try {
+        await fetch(`${API}/auth/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (err) {
+        console.log('Erreur logout serveur');
+    }
+    localStorage.clear();
+    window.location.href = 'login.html';
+}
+
 // SYNC SUPABASE
 async function syncUserData() {
     const token = localStorage.getItem('authToken');
@@ -385,7 +403,7 @@ document.getElementById('pro-reset-btn').addEventListener('click', () => {
             localStorage.removeItem('notifications');
             localStorage.removeItem('dailyObjectives');
             alert('✅ Progression réinitialisée avec succès.');
-            window.location.href = 'login.html';
+            window.location.href = 'dashboard.html';
         }
     }
 });
@@ -393,8 +411,7 @@ document.getElementById('pro-reset-btn').addEventListener('click', () => {
 // DÉCONNEXION SIDEBAR
 document.getElementById('side-logout').addEventListener('click', (e) => {
     e.preventDefault();
-    localStorage.setItem('isLoggedIn', 'false');
-    window.location.href = 'login.html';
+    logout();
 });
 
 // USER DROPDOWN
@@ -440,8 +457,7 @@ const ddLogout = document.getElementById('pro-dropdown-logout');
 if (ddLogout) {
     ddLogout.addEventListener('click', (e) => {
         e.preventDefault();
-        localStorage.setItem('isLoggedIn', 'false');
-        window.location.href = 'login.html';
+        logout();
     });
 }
 
@@ -472,5 +488,5 @@ document.querySelectorAll('.pro-share-link').forEach(link => {
     });
 });
 
-// INIT — sync Supabase en arrière-plan
+// INIT
 syncUserData();

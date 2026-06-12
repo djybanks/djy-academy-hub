@@ -1,3 +1,4 @@
+// GARDE AUTH
 if (localStorage.getItem('isLoggedIn') !== 'true') {
     window.location.href = 'login.html';
 }
@@ -6,6 +7,26 @@ if (localStorage.getItem('isLoggedIn') !== 'true') {
 // API
 // ================================
 const API = 'https://djy-backend.onrender.com';
+
+// ================================
+// DÉCONNEXION PROPRE
+// ================================
+async function logout() {
+    const token = localStorage.getItem('authToken');
+    try {
+        await fetch(`${API}/auth/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (err) {
+        console.log('Erreur logout serveur');
+    }
+    localStorage.clear();
+    window.location.href = 'login.html';
+}
 
 // ================================
 // SYNC SUPABASE
@@ -343,7 +364,6 @@ document.querySelectorAll('.st-accent').forEach(acc => {
     });
 });
 
-// Save profil — sauvegarde Supabase
 document.getElementById('st-save-profile')?.addEventListener('click', async () => {
     const name = document.getElementById('st-input-name')?.value?.trim();
     const email = document.getElementById('st-input-email')?.value?.trim();
@@ -384,14 +404,12 @@ document.addEventListener('click', () => {
 
 document.getElementById('side-logout')?.addEventListener('click', e => {
     e.preventDefault();
-    localStorage.setItem('isLoggedIn', 'false');
-    window.location.href = 'login.html';
+    logout();
 });
 
 document.getElementById('st-dropdown-logout')?.addEventListener('click', e => {
     e.preventDefault();
-    localStorage.setItem('isLoggedIn', 'false');
-    window.location.href = 'login.html';
+    logout();
 });
 
 document.getElementById('st-reset-btn')?.addEventListener('click', () => {
@@ -406,8 +424,7 @@ document.getElementById('st-reset-btn')?.addEventListener('click', () => {
 document.getElementById('st-delete-btn')?.addEventListener('click', () => {
     if (!confirm('🗑️ Supprimer définitivement ton compte ?')) return;
     if (!confirm('🔴 Confirmation finale : toutes tes données seront perdues.')) return;
-    localStorage.clear();
-    window.location.href = 'login.html';
+    logout();
 });
 
 document.getElementById('st-change-pwd')?.addEventListener('click', () => {

@@ -1,6 +1,24 @@
 // SYNCHRONISATION SUPABASE AU CHARGEMENT
 const API = 'https://djy-backend.onrender.com';
 
+// DÉCONNEXION PROPRE
+async function logout() {
+    const token = localStorage.getItem('authToken');
+    try {
+        await fetch(`${API}/auth/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (err) {
+        console.log('Erreur logout serveur');
+    }
+    localStorage.clear();
+    window.location.href = 'login.html';
+}
+
 async function syncUserData() {
     const token = localStorage.getItem('authToken');
     if (!token) return;
@@ -79,7 +97,7 @@ function getLevelInfo(xp) {
 
 const levelInfo = getLevelInfo(totalXP);
 
-// 4. GESTION DU THÈME (CLAIR/SOMBRE)
+// 4. GESTION DU THÈME
 const themeBtn = document.getElementById('theme-btn');
 const moonIcon = document.getElementById('theme-icon-moon');
 const sunIcon = document.getElementById('theme-icon-sun');
@@ -639,11 +657,12 @@ document.querySelectorAll('.social-share-btn').forEach(btn => {
 });
 
 // 19. DÉCONNEXION
-const logoutAction = (e) => {
+document.getElementById('side-logout').addEventListener('click', (e) => {
     e.preventDefault();
-    localStorage.setItem('isLoggedIn', 'false');
-    window.location.href = 'login.html';
-};
+    logout();
+});
 
-document.getElementById('side-logout').addEventListener('click', logoutAction);
-document.getElementById('dropdown-logout').addEventListener('click', logoutAction);
+document.getElementById('dropdown-logout').addEventListener('click', (e) => {
+    e.preventDefault();
+    logout();
+});

@@ -1,6 +1,24 @@
 // API
 const API = 'https://djy-backend.onrender.com';
 
+// DÉCONNEXION PROPRE
+async function logout() {
+    const token = localStorage.getItem('authToken');
+    try {
+        await fetch(`${API}/auth/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (err) {
+        console.log('Erreur logout serveur');
+    }
+    localStorage.clear();
+    window.location.href = 'login.html';
+}
+
 // SYNC PROGRESSION DEPUIS SUPABASE
 async function syncProgression() {
     const token = localStorage.getItem('authToken');
@@ -411,7 +429,6 @@ function showResult() {
             d.xpGained = (d.xpGained || 0) + currentLesson.xp;
             localStorage.setItem('dailyObjectives', JSON.stringify(d));
 
-            // SAUVEGARDER DANS SUPABASE
             saveProgressionToSupabase();
 
             updateStats();
@@ -459,8 +476,7 @@ if (quoteEl) quoteEl.textContent = quotes[Math.floor(Math.random() * quotes.leng
 // DÉCONNEXION
 document.getElementById('side-logout').addEventListener('click', (e) => {
     e.preventDefault();
-    localStorage.setItem('isLoggedIn', 'false');
-    window.location.href = 'login.html';
+    logout();
 });
 
 // TRADUCTION INTERFACE
