@@ -1,10 +1,59 @@
-// VÉRIFIER SI CONNECTÉ
-// --- FORCE LA CONNEXION AUTOMATIQUE POUR DJYBANKS ---
-localStorage.setItem('isLoggedIn', 'true');
-localStorage.setItem('userName', 'Djybanks');
-localStorage.setItem('totalXP', '2450'); // Ton XP Niveau 12
-// -----------------------------------------------------
+// API
+const API = 'https://djy-backend.onrender.com';
 
+// SYNC SUPABASE
+async function syncUserData() {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API}/user/profile`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+        const user = data.user;
+        if (!user) return;
+
+        localStorage.setItem('userName', user.username);
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userBio', user.bio || '');
+        localStorage.setItem('userAvatarColor', user.avatar_color || 'blue');
+        localStorage.setItem('totalXP', user.xp || 0);
+        localStorage.setItem('currentStreak', user.streak || 0);
+        localStorage.setItem('selectedLanguage', user.selected_language || 'english');
+        localStorage.setItem('interfaceLang', user.interface_lang || 'fr');
+
+    } catch (err) {
+        console.log('Sync offline — données locales utilisées');
+    }
+}
+
+async function saveProfileToSupabase(username, bio, avatar_color) {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+
+    try {
+        await fetch(`${API}/user/profile`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, bio, avatar_color })
+        });
+    } catch (err) {
+        console.log('Erreur sauvegarde Supabase');
+    }
+}
+
+// VÉRIFIER SI CONNECTÉ
 if (localStorage.getItem('isLoggedIn') !== 'true') {
     window.location.href = 'login.html';
 }
@@ -191,6 +240,7 @@ avatarColors.forEach(c => {
         const ddAvatar = document.getElementById('pro-dropdown-avatar');
         if (ddAvatar) ddAvatar.style.background = color;
         localStorage.setItem('userAvatarColor', color);
+        saveProfileToSupabase(userName, userBio, c.dataset.color || color);
     });
 });
 
@@ -281,13 +331,20 @@ document.getElementById('btn-edit-profile').addEventListener('click', () => {
 
 document.getElementById('pro-edit-cancel').addEventListener('click', () => document.getElementById('pro-edit-modal').classList.add('hidden'));
 
-document.getElementById('pro-edit-save').addEventListener('click', () => {
+document.getElementById('pro-edit-save').addEventListener('click', async () => {
     const n = document.getElementById('pro-edit-name').value.trim();
     const e = document.getElementById('pro-edit-email').value.trim();
     const b = document.getElementById('pro-edit-bio').value.trim();
     if (n.length >= 2) localStorage.setItem('userName', n);
     if (e.length >= 5) localStorage.setItem('userEmail', e);
     if (b.length > 0) { localStorage.setItem('userBio', b); userBio = b; }
+
+    await saveProfileToSupabase(
+        n.length >= 2 ? n : userName,
+        b.length > 0 ? b : userBio,
+        localStorage.getItem('userAvatarColor') || 'blue'
+    );
+
     document.getElementById('pro-edit-modal').classList.add('hidden');
     location.reload();
 });
@@ -310,9 +367,9 @@ document.querySelectorAll('.pro-social').forEach(btn => {
 
 // RESET
 document.getElementById('pro-reset-btn').addEventListener('click', () => {
-    const confirmed = window.confirm('⚠️ Es-tu absolument sûr de vouloir réinitialiser TOUTE ta progression ?\n\nCette action est IRRÉVERSIBLE.\n\n• Tous tes XP seront perdus\n• Toutes tes leçons seront réinitialisées\n• Tous tes badges seront supprimés\n• Ton streak sera remis à zéro');
+    const confirmed = window.confirm('⚠️ Es-tu absolument sûr de vouloir réinitialiser TOUTE ta progression ?\n\nCette action est IRRÉVERSIBLE.');
     if (confirmed) {
-        const doubleConfirm = window.confirm('🔴 DERNIÈRE CONFIRMATION\n\nTape OK pour confirmer la suppression définitive de toutes tes données.');
+        const doubleConfirm = window.confirm('🔴 DERNIÈRE CONFIRMATION\n\nTape OK pour confirmer.');
         if (doubleConfirm) {
             localStorage.removeItem('totalXP');
             localStorage.removeItem('completedLessons');
@@ -374,6 +431,7 @@ document.querySelectorAll('.pro-dd-color').forEach(c => {
         headerAvatarEl.style.background = color;
         document.getElementById('pro-dropdown-avatar').style.background = color;
         localStorage.setItem('userAvatarColor', color);
+        saveProfileToSupabase(userName, userBio, c.dataset.color || color);
     });
 });
 
@@ -413,3 +471,6 @@ document.querySelectorAll('.pro-share-link').forEach(link => {
         shareDropdown.classList.add('hidden');
     });
 });
+
+// INIT — sync Supabase en arrière-plan
+syncUserData();
