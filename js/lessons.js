@@ -1,3 +1,75 @@
+// API
+const API = 'https://djy-backend.onrender.com';
+
+// SYNC PROGRESSION DEPUIS SUPABASE
+async function syncProgression() {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API}/user/progression`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+        if (!data.data) return;
+
+        data.data.forEach(prog => {
+            const existing = JSON.parse(localStorage.getItem('completedLessons')) || {};
+            const merged = { ...existing, ...prog.lessons_completed };
+            localStorage.setItem('completedLessons', JSON.stringify(merged));
+        });
+
+        completedLessons = JSON.parse(localStorage.getItem('completedLessons')) || {};
+        updateStats();
+        renderLangCards();
+        renderModules();
+
+    } catch (err) {
+        console.log('Sync offline — données locales utilisées');
+    }
+}
+
+async function saveProgressionToSupabase() {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+
+    const lessonsCount = Object.keys(completedLessons).length;
+
+    try {
+        await fetch(`${API}/user/progression`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                language: selectedLanguage,
+                lessons_completed: completedLessons,
+                total_lessons_done: lessonsCount
+            })
+        });
+
+        await fetch(`${API}/user/xp`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ xp: totalXP })
+        });
+
+    } catch (err) {
+        console.log('Erreur sauvegarde progression');
+    }
+}
+
 // VÉRIFIER SI CONNECTÉ
 if (localStorage.getItem('isLoggedIn') !== 'true') {
     window.location.href = 'login.html';
@@ -128,7 +200,7 @@ function renderObjectives() {
     });
 }
 
-// LANGUE CARDS — CHANGEMENT SANS RECHARGEMENT
+// LANGUE CARDS
 function renderLangCards() {
     const c = document.getElementById('les-lang-cards');
     if (!c) return;
@@ -159,7 +231,7 @@ function renderLangCards() {
 
             const titles = { english: 'English', french: 'Français', spanish: 'Español' };
             courseTitle = titles[lang.id];
-            
+
             const t = interfaceTranslations[currentInterfaceLang] || interfaceTranslations.fr;
             document.getElementById('lessons-title').textContent = t.title + ' — ' + courseTitle;
 
@@ -339,6 +411,9 @@ function showResult() {
             d.xpGained = (d.xpGained || 0) + currentLesson.xp;
             localStorage.setItem('dailyObjectives', JSON.stringify(d));
 
+            // SAUVEGARDER DANS SUPABASE
+            saveProgressionToSupabase();
+
             updateStats();
             renderLangCards();
             renderObjectives();
@@ -388,7 +463,7 @@ document.getElementById('side-logout').addEventListener('click', (e) => {
     window.location.href = 'login.html';
 });
 
-// TRADUCTION INTERFACE VIA DROPDOWN HEADER
+// TRADUCTION INTERFACE
 const interfaceTranslations = {
     fr: {
         title: 'Cours',
@@ -511,3 +586,4 @@ applyInterfaceLang(currentInterfaceLang);
 
 // INITIALISATION
 renderModules();
+syncProgression();
