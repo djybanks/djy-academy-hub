@@ -1,5 +1,26 @@
-// SYSTÈME DE STREAK CENTRALISÉ
+// API
+const API = 'https://djy-backend.onrender.com';
 
+// SAUVEGARDER STREAK DANS SUPABASE
+async function saveStreakToSupabase(streak) {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+
+    try {
+        await fetch(`${API}/user/profile`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ streak })
+        });
+    } catch (err) {
+        console.log('Erreur sauvegarde streak');
+    }
+}
+
+// SYSTÈME DE STREAK CENTRALISÉ
 function initializeStreak() {
     const today = new Date().toDateString();
     const lastVisit = localStorage.getItem('lastVisit');
@@ -10,6 +31,7 @@ function initializeStreak() {
         currentStreak = 1;
         localStorage.setItem('currentStreak', currentStreak);
         localStorage.setItem('lastVisit', new Date().toISOString());
+        saveStreakToSupabase(currentStreak);
         return currentStreak;
     }
 
@@ -30,6 +52,7 @@ function initializeStreak() {
         currentStreak++;
         localStorage.setItem('currentStreak', currentStreak);
         localStorage.setItem('lastVisit', new Date().toISOString());
+        saveStreakToSupabase(currentStreak);
         return currentStreak;
     }
 
@@ -37,6 +60,7 @@ function initializeStreak() {
     currentStreak = 1;
     localStorage.setItem('currentStreak', currentStreak);
     localStorage.setItem('lastVisit', new Date().toISOString());
+    saveStreakToSupabase(currentStreak);
     return currentStreak;
 }
 
