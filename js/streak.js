@@ -1,5 +1,5 @@
 // API
-const API = 'https://djy-backend.onrender.com';
+const STREAK_API = 'https://djy-backend.onrender.com';
 
 // SAUVEGARDER STREAK DANS SUPABASE
 async function saveStreakToSupabase(streak) {
@@ -7,7 +7,7 @@ async function saveStreakToSupabase(streak) {
     if (!token) return;
 
     try {
-        await fetch(`${API}/user/profile`, {
+        await fetch(`${STREAK_API}/user/profile`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -26,7 +26,6 @@ function initializeStreak() {
     const lastVisit = localStorage.getItem('lastVisit');
     let currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
 
-    // Première visite
     if (!lastVisit) {
         currentStreak = 1;
         localStorage.setItem('currentStreak', currentStreak);
@@ -37,17 +36,14 @@ function initializeStreak() {
 
     const lastVisitDate = new Date(lastVisit).toDateString();
 
-    // Déjà visité aujourd'hui
     if (lastVisitDate === today) {
         return currentStreak;
     }
 
-    // Calculer hier
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const yesterdayString = yesterday.toDateString();
 
-    // Visité hier = continuer le streak
     if (lastVisitDate === yesterdayString) {
         currentStreak++;
         localStorage.setItem('currentStreak', currentStreak);
@@ -56,7 +52,6 @@ function initializeStreak() {
         return currentStreak;
     }
 
-    // Raté un jour = reset
     currentStreak = 1;
     localStorage.setItem('currentStreak', currentStreak);
     localStorage.setItem('lastVisit', new Date().toISOString());
