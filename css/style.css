@@ -506,3 +506,25 @@ footer {
     position: relative !important;
     z-index: 400 !important;
 }
+
+/* ================================
+   LOGO SIDEBAR — LIEN VERS INDEX
+================================ */
+a.sidebar-header,
+a.pg-sidebar-logo,
+a.pro-sidebar-logo,
+a.st-sidebar-logo {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+a.sidebar-header:hover,
+a.pg-sidebar-logo:hover,
+a.pro-sidebar-logo:hover,
+a.st-sidebar-logo:hover {
+    opacity: 0.85;
+}

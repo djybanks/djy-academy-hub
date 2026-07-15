@@ -12,14 +12,13 @@
 
 <div class="vocab-page">
 
-    <!-- SIDEBAR -->
-    <aside class="vocab-sidebar">
-        <div class="vocab-sidebar-logo-block">
+        <aside class="vocab-sidebar">
+        <a href="index.html" class="vocab-sidebar-logo-block" style="text-decoration:none;color:inherit;">
             <div class="vocab-sidebar-logo-icon">
                 <i data-lucide="zap"></i>
             </div>
             <span class="vocab-sidebar-brand">DJY ACADEMY HUB</span>
-        </div>
+        </a>
 
         <nav class="vocab-sidebar-nav">
             <a href="dashboard.html" class="vocab-nav-link">
@@ -65,18 +64,15 @@
         </a>
     </aside>
 
-    <!-- MAIN -->
-    <main class="vocab-main">
+        <main class="vocab-main">
 
-        <!-- PARTICULES -->
-        <div class="vocab-particles-bg" aria-hidden="true">
+                <div class="vocab-particles-bg" aria-hidden="true">
             <div class="vocab-glow-blue"></div>
             <div class="vocab-glow-purple"></div>
             <div id="vocab-particles"></div>
         </div>
 
-        <!-- HEADER -->
-        <header class="vocab-header">
+                <header class="vocab-header">
             <div class="vocab-header-left">
                 <h1 class="vocab-header-title">Vocabulaire</h1>
                 <p class="vocab-header-sub">Apprends et révise ton vocabulaire</p>
@@ -122,14 +118,11 @@
             </div>
         </header>
 
-        <!-- CONTENU -->
-        <div class="vocab-body">
+                <div class="vocab-body">
 
-            <!-- GAUCHE : ZONE PRINCIPALE -->
-            <div class="vocab-center-col">
+                        <div class="vocab-center-col">
 
-                <!-- FILTRES -->
-                <div class="vocab-filters-row">
+                                <div class="vocab-filters-row">
                     <div class="vocab-search-box">
                         <i data-lucide="search"></i>
                         <input type="text" id="vocab-search-input" placeholder="Rechercher un mot...">
@@ -143,8 +136,7 @@
                     </div>
                 </div>
 
-                <!-- TABS -->
-                <div class="vocab-tabs-row">
+                                <div class="vocab-tabs-row">
                     <button class="vocab-tab-btn active" id="tab-flashcards" type="button">
                         <i data-lucide="layers"></i> Flashcards
                     </button>
@@ -153,8 +145,7 @@
                     </button>
                 </div>
 
-                <!-- VUE FLASHCARDS -->
-                <div class="vocab-view" id="view-flashcards">
+                                <div class="vocab-view" id="view-flashcards">
 
                     <div class="vocab-card-zone">
 
@@ -166,12 +157,10 @@
                             <div class="vocab-card-progress-fill" id="flashcard-progress-fill" style="width:10%;"></div>
                         </div>
 
-                        <!-- FLASHCARD FLIP -->
-                        <div class="vocab-flip-scene" id="flashcard-wrapper">
+                                                <div class="vocab-flip-scene" id="flashcard-wrapper">
                             <div class="vocab-flip-card" id="flashcard">
 
-                                <!-- RECTO -->
-                                <div class="vocab-flip-front">
+                                                                <div class="vocab-flip-front">
                                     <div class="vocab-card-label">Title</div>
                                     <div class="vocab-card-word-line">
                                         <span class="vocab-card-word" id="card-word">HELLO</span>
@@ -192,8 +181,7 @@
                                     </div>
                                 </div>
 
-                                <!-- VERSO -->
-                                <div class="vocab-flip-back">
+                                                                <div class="vocab-flip-back">
                                     <div class="vocab-card-label light">Sub-title</div>
                                     <div class="vocab-card-word-line">
                                         <span class="vocab-card-translation" id="card-translation">BONJOUR</span>
@@ -221,15 +209,14 @@
                             </div>
                         </div>
 
-                        <!-- BOUTONS ACTION -->
-                        <div class="vocab-actions">
+                                                <div class="vocab-actions">
                             <button class="vocab-action-btn review" id="btn-review" type="button">
                                 <i data-lucide="rotate-ccw"></i> À revoir
                             </button>
                             <button class="vocab-action-btn skip" id="btn-skip" type="button">
                                 <i data-lucide="skip-forward"></i> Passer
                             </button>
-                            <button class="vocab-action-btn mastered" id="btn-mastered" type="button">
+                           <button class="vocab-action-btn mastered" id="btn-mastered" type="button">
                                 <i data-lucide="check"></i> Je connais
                             </button>
                         </div>
@@ -240,8 +227,7 @@
 
                     </div>
 
-                    <!-- RÉSULTAT -->
-                    <div class="vocab-result hidden" id="flashcard-result">
+                                        <div class="vocab-result hidden" id="flashcard-result">
                         <span class="vocab-result-emoji" id="result-emoji">🎉</span>
                         <h2>Session terminée !</h2>
                         <div class="vocab-result-stats">
@@ -266,18 +252,15 @@
 
                 </div>
 
-                <!-- VUE LISTE -->
-                <div class="vocab-view hidden" id="view-list">
+                                <div class="vocab-view hidden" id="view-list">
                     <div class="vocab-word-grid" id="word-list"></div>
                 </div>
 
             </div>
 
-            <!-- DROITE : PANNEAU MOTIVATION -->
-            <aside class="vocab-right-col">
+                        <aside class="vocab-right-col">
 
-                <!-- MOTIVATION -->
-                <div class="vocab-motivation-card">
+                                <div class="vocab-motivation-card">
                     <h3 class="vocab-motivation-title">Motivation</h3>
                     <div class="vocab-robot-wrap">
                         <div class="vocab-robot">
@@ -301,14 +284,13 @@
                             <div class="vocab-robot-glow"></div>
                         </div>
                     </div>
-                    <p class="vocab-motivation-msg">
+                   <p class="vocab-motivation-msg">
                         Continue ton apprentissage,<br>
                         <strong id="motivation-name">Djybanks</strong> ! 🔥
                     </p>
                 </div>
 
-                <!-- STATS -->
-                <div class="vocab-stats-col">
+                                <div class="vocab-stats-col">
 
                     <div class="vocab-stat-item">
                         <div class="vocab-stat-row">
@@ -338,7 +320,7 @@
                             <span class="vocab-stat-label">Streak du jour</span>
                             <span class="vocab-stat-val"><span id="stat-streak-vocab">0</span> jours</span>
                         </div>
-                        <div class="vocab-stat-track">
+                       <div class="vocab-stat-track">
                             <div class="vocab-stat-fill orange" id="stat-streak-bar" style="width:0%"></div>
                         </div>
                     </div>
@@ -346,7 +328,7 @@
                     <div class="vocab-stat-item">
                         <div class="vocab-stat-row">
                             <span class="vocab-stat-icon">✅</span>
-                            <span class="vocab-stat-label">Mots maîtrisés</span>
+          0                 <span class="vocab-stat-label">Mots maîtrisés</span>
                             <span class="vocab-stat-val"><span id="stat-mastered-count">0</span> mots</span>
                         </div>
                         <div class="vocab-stat-track">
