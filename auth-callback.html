@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion en cours — DJY Academy Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B1220;
+            color: #E5E7EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .callback-box {
+            text-align: center;
+            padding: 40px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            max-width: 400px;
+            width: 90%;
+        }
+        .callback-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        .callback-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .callback-text {
+            font-size: 0.85rem;
+            color: #94A3B8;
+        }
+        .callback-error {
+            color: #EF4444;
+            font-size: 0.85rem;
+            margin-top: 16px;
+            display: none;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="callback-box">
+        <div class="callback-icon">⚡</div>
+        <h1 class="callback-title">Connexion en cours...</h1>
+        <p class="callback-text">Nous vérifions ton compte Google</p>
+        <p class="callback-error" id="callback-error"></p>
+    </div>
+
+    <script>
+        const API = 'https://djy-backend.onrender.com';
+
+        async function handleCallback() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+            const userId = params.get('userId');
+
+            if (!token || !userId) {
+                // Essayer de récupérer depuis le hash (Supabase redirige parfois avec un hash)
+                const hash = window.location.hash.substring(1);
+                const hashParams = new URLSearchParams(hash);
+                const accessToken = hashParams.get('access_token');
+
+                if (accessToken) {
+                    try {
+                        const res = await fetch(`${API}/user/profile`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        const data = await res.json();
+
+                        if (data.user) {
+                            localStorage.setItem('isLoggedIn', 'true');
+                            localStorage.setItem('authToken', accessToken);
+                            localStorage.setItem('userId', data.user.id);
+                            localStorage.setItem('userName', data.user.username);
+                            localStorage.setItem('userEmail', data.user.email);
+                            localStorage.setItem('userBio', data.user.bio || '');
+                            localStorage.setItem('userAvatarColor', data.user.avatar_color || 'blue');
+                            localStorage.setItem('totalXP', data.user.xp || 0);
+                            localStorage.setItem('currentStreak', data.user.streak || 0);
+                            localStorage.setItem('selectedLanguage', data.user.selected_language || 'english');
+                            localStorage.setItem('interfaceLang', data.user.interface_lang || 'fr');
+
+                            window.location.href = 'dashboard.html';
+                            return;
+                        }
+                    } catch (err) {
+                        showError('Erreur de connexion. Réessaie.');
+                        return;
+                    }
+                }
+
+                showError('Paramètres manquants. Réessaie.');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API}/user/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await res.json();
+
+                if (data.user) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('authToken', token);
+                    localStorage.setItem('userId', userId);
+                    localStorage.setItem('userName', data.user.username);
+                    localStorage.setItem('userEmail', data.user.email);
+                    localStorage.setItem('userBio', data.user.bio || '');
+                    localStorage.setItem('userAvatarColor', data.user.avatar_color || 'blue');
+                    localStorage.setItem('totalXP', data.user.xp || 0);
+                    localStorage.setItem('currentStreak', data.user.streak || 0);
+                    localStorage.setItem('selectedLanguage', data.user.selected_language || 'english');
+                    localStorage.setItem('interfaceLang', data.user.interface_lang || 'fr');
+
+                    window.location.href = 'dashboard.html';
+                } else {
+                    showError('Profil introuvable. Contacte le support.');
+                }
+
+            } catch (err) {
+                showError('Erreur réseau. Vérifie ta connexion.');
+            }
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('callback-error');
+            el.textContent = msg;
+            el.style.display = 'block';
+            document.querySelector('.callback-icon').textContent = '❌';
+            document.querySelector('.callback-title').textContent = 'Erreur';
+        }
+
+        handleCallback();
+    </script>
+</body>
+</html>

@@ -347,3 +347,19 @@ document.getElementById('save-objectives-btn').addEventListener('click', async f
         setLoading('save-objectives-btn', false);
     }
 });
+
+// CONNEXION GOOGLE
+document.getElementById('google-login-btn')?.addEventListener('click', async () => {
+    try {
+        const res = await fetch(`${API}/auth/google`);
+        const data = await res.json();
+
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert('Erreur : impossible de se connecter avec Google.');
+        }
+    } catch (err) {
+        alert('Erreur réseau. Vérifie ta connexion.');
+    }
+});
