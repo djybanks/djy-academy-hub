@@ -40,6 +40,10 @@ window.levelSystem = levelSystem;
 // URL BACKEND
 const API = 'https://djy-backend.onrender.com';
 
+// Variables OTP
+let pendingEmail = '';
+let pendingPassword = '';
+
 // VÉRIFIER SI DÉJÀ CONNECTÉ
 if (localStorage.getItem('isLoggedIn') === 'true') {
     window.location.href = 'dashboard.html';
@@ -52,12 +56,14 @@ const loginTabs = document.getElementById('login-tabs');
 const viewLogin = document.getElementById('view-login');
 const viewSignup = document.getElementById('view-signup');
 const viewObjectives = document.getElementById('view-objectives');
+const viewVerify = document.getElementById('view-verify');
 
 // FONCTION SWITCH VUE
 function showLoginView(viewId) {
     viewLogin.classList.add('hidden');
     viewSignup.classList.add('hidden');
     viewObjectives.classList.add('hidden');
+    if (viewVerify) viewVerify.classList.add('hidden');
 
     if (viewId === 'login') {
         viewLogin.classList.remove('hidden');
@@ -72,6 +78,13 @@ function showLoginView(viewId) {
     } else if (viewId === 'objectives') {
         viewObjectives.classList.remove('hidden');
         loginTabs.classList.add('hidden');
+    } else if (viewId === 'verify') {
+        if (viewVerify) {
+            viewVerify.classList.remove('hidden');
+            loginTabs.classList.add('hidden');
+            const emailDisplay = document.getElementById('verify-email-display');
+            if (emailDisplay) emailDisplay.textContent = pendingEmail;
+        }
     }
 
     window.scrollTo(0, 0);
@@ -127,16 +140,19 @@ function isValidEmail(email) {
 
 function showError(id, message) {
     const el = document.getElementById(id);
+    if (!el) return;
     el.textContent = message;
     el.classList.remove('hidden');
 }
 
 function hideError(id) {
-    document.getElementById(id).classList.add('hidden');
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hidden');
 }
 
 function setLoading(btnId, loading) {
     const btn = document.getElementById(btnId);
+    if (!btn) return;
     btn.disabled = loading;
     btn.style.opacity = loading ? '0.6' : '1';
 }
@@ -261,6 +277,9 @@ document.getElementById('signup-btn').addEventListener('click', async function()
             return;
         }
 
+        pendingEmail = email;
+        pendingPassword = password;
+
         localStorage.setItem('tempAccount', JSON.stringify({
             id: data.user.id,
             fullname,
@@ -275,13 +294,77 @@ document.getElementById('signup-btn').addEventListener('click', async function()
             objectives: []
         }));
 
-        showLoginView('objectives');
+        showLoginView('verify');
         lucide.createIcons();
         setLoading('signup-btn', false);
 
     } catch (err) {
         showError('signup-email-error', 'Erreur réseau. Vérifie ta connexion.');
         setLoading('signup-btn', false);
+    }
+});
+
+// VÉRIFICATION CODE OTP
+document.getElementById('verify-btn')?.addEventListener('click', async () => {
+    const code = document.getElementById('verify-code')?.value?.trim();
+
+    if (!code || code.length !== 6) {
+        showError('verify-code-error', 'Entre un code à 6 chiffres');
+        return;
+    }
+
+    setLoading('verify-btn', true);
+
+    try {
+        const res = await fetch(`${API}/auth/verify-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: pendingEmail, token: code })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            showError('verify-code-error', data.error || 'Code invalide ou expiré');
+            setLoading('verify-btn', false);
+            return;
+        }
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userName', data.user.username);
+        localStorage.setItem('userEmail', data.user.email);
+        localStorage.setItem('userBio', '');
+        localStorage.setItem('userAvatarColor', 'blue');
+        localStorage.setItem('totalXP', '0');
+        localStorage.setItem('currentStreak', '0');
+        localStorage.setItem('selectedLanguage', 'english');
+        localStorage.setItem('interfaceLang', 'fr');
+
+        showLoginView('objectives');
+        lucide.createIcons();
+
+    } catch (err) {
+        showError('verify-code-error', 'Erreur réseau.');
+        setLoading('verify-btn', false);
+    }
+});
+
+// RENVOYER LE CODE
+document.getElementById('resend-code')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (!pendingEmail) return;
+
+    try {
+        await fetch(`${API}/auth/resend-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: pendingEmail })
+        });
+        alert('✅ Code renvoyé à ' + pendingEmail);
+    } catch (err) {
+        alert('Erreur réseau.');
     }
 });
 
@@ -314,7 +397,7 @@ document.getElementById('save-objectives-btn').addEventListener('click', async f
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 email: tempAccount.email,
-                password: document.getElementById('signup-password')?.value || ''
+                password: pendingPassword
             })
         });
 
@@ -340,6 +423,8 @@ document.getElementById('save-objectives-btn').addEventListener('click', async f
             localStorage.removeItem('tempAccount');
 
             window.location.href = 'dashboard.html';
+        } else {
+            showLoginView('login');
         }
 
     } catch (err) {

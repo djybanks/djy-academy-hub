@@ -288,6 +288,31 @@
                 </p>
             </div>
 
+            <!-- VUE 4 : VÉRIFICATION EMAIL -->
+            <div class="login-view hidden" id="view-verify">
+                <h2>Vérifie ton email 📧</h2>
+                <p class="login-subtitle">Un code à 6 chiffres a été envoyé à <strong id="verify-email-display"></strong></p>
+
+                <div class="form-group">
+                    <label>Code de vérification</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="shield"></i>
+                        <input type="text" id="verify-code" placeholder="000000" maxlength="6" style="letter-spacing: 8px; font-size: 1.5rem; text-align: center;">
+                    </div>
+                    <span class="input-error hidden" id="verify-code-error"></span>
+                </div>
+
+                <button class="btn-login" id="verify-btn" type="button">
+                    <i data-lucide="check-circle"></i>
+                    Vérifier le code
+                </button>
+
+                <p class="login-switch">
+                    Tu n'as pas reçu le code ?
+                    <a href="#" id="resend-code">Renvoyer</a>
+                </p>
+            </div>
+
         </div>
     </div>
 
