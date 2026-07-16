@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de placement — DJY Academy Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .quiz-page {
+            min-height: 100vh;
+            background: #0B1220;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .quiz-bg-circle {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(37, 99, 235, 0.08);
+            top: -100px;
+            left: -100px;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(124, 58, 237, 0.06);
+            bottom: -80px;
+            right: -80px;
+        }
+
+        .quiz-container {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 620px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(20px);
+        }
+
+        .quiz-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+            justify-content: center;
+        }
+
+        .quiz-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: #2563EB;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .quiz-logo span {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #E5E7EB;
+        }
+
+        /* VUE INTRO */
+        .quiz-intro { text-align: center; }
+
+        .quiz-intro h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+
+        .quiz-intro p {
+            color: #94A3B8;
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .quiz-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .quiz-info-card {
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .quiz-info-icon { font-size: 1.4rem; margin-bottom: 6px; display: block; }
+        .quiz-info-label { font-size: 0.72rem; color: #94A3B8; display: block; margin-bottom: 3px; }
+        .quiz-info-value { font-size: 0.85rem; font-weight: 700; color: #E5E7EB; display: block; }
+
+        .quiz-level-breakdown {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .quiz-level-breakdown h4 {
+            font-size: 0.82rem;
+            color: #94A3B8;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .level-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.82rem;
+        }
+
+        .level-badge {
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 90px;
+            text-align: center;
+        }
+
+        .level-badge.beginner { background: rgba(34, 197, 94, 0.15); color: #22C55E; }
+        .level-badge.intermediate { background: rgba(37, 99, 235, 0.15); color: #60A5FA; }
+        .level-badge.advanced { background: rgba(168, 85, 247, 0.15); color: #A855F7; }
+
+        .level-desc { color: #94A3B8; font-size: 0.78rem; }
+
+        /* BOUTON START */
+        .btn-start-quiz {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .btn-start-quiz:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4); }
+
+        .quiz-skip {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.82rem;
+            color: #64748B;
+        }
+
+        .quiz-skip a { color: #2563EB; text-decoration: none; }
+        .quiz-skip a:hover { text-decoration: underline; }
+
+        /* VUE QUIZ */
+        .quiz-header { margin-bottom: 24px; }
+
+        .quiz-progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .quiz-progress-text { font-size: 0.82rem; color: #94A3B8; }
+        .quiz-progress-level { font-size: 0.75rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
+        .quiz-progress-level.beginner { background: rgba(34, 197, 94, 0.15); color: #22C55E; }
+        .quiz-progress-level.intermediate { background: rgba(37, 99, 235, 0.15); color: #60A5FA; }
+        .quiz-progress-level.advanced { background: rgba(168, 85, 247, 0.15); color: #A855F7; }
+
+        .quiz-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2563EB, #60A5FA);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .quiz-question-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-question-number {
+            font-size: 0.72rem;
+            color: #64748B;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .quiz-question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #E5E7EB;
+            line-height: 1.6;
+        }
+
+        .quiz-context {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: rgba(37, 99, 235, 0.08);
+            border-left: 3px solid #2563EB;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: #94A3B8;
+            font-style: italic;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.88rem;
+            color: #E5E7EB;
+            font-family: inherit;
+            text-align: left;
+            width: 100%;
+        }
+
+        .quiz-option:hover:not(:disabled) {
+            border-color: rgba(37, 99, 235, 0.4);
+            background: rgba(37, 99, 235, 0.06);
+        }
+
+        .quiz-option.selected {
+            border-color: #2563EB;
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #22C55E;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22C55E;
+        }
+
+        .quiz-option.wrong {
+            border-color: #EF4444;
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .quiz-option:disabled { cursor: not-allowed; }
+
+        .option-letter {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            color: #94A3B8;
+        }
+
+        .quiz-option.correct .option-letter { background: rgba(34, 197, 94, 0.2); color: #22C55E; }
+        .quiz-option.wrong .option-letter { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+        .quiz-option.selected .option-letter { background: rgba(37, 99, 235, 0.2); color: #60A5FA; }
+
+        /* VUE RÉSULTAT */
+        .quiz-result { text-align: center; }
+
+        .result-icon { font-size: 3.5rem; margin-bottom: 16px; display: block; }
+
+        .result-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+        }
+
+        .result-subtitle {
+            color: #94A3B8;
+            font-size: 0.88rem;
+            margin-bottom: 24px;
+        }
+
+        .result-level-card {
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .result-level-label {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .result-level-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #2563EB;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .result-score {
+            font-size: 0.85rem;
+            color: #94A3B8;
+        }
+
+        .result-breakdown {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .result-breakdown-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .result-breakdown-item span:first-child {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .result-breakdown-item span:last-child {
+            font-size: 0.68rem;
+            color: #64748B;
+        }
+
+        .btn-go-dashboard {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-go-dashboard:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4); }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            .quiz-container { padding: 24px 18px; }
+            .quiz-info-grid { grid-template-columns: 1fr; }
+            .result-breakdown { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="quiz-page">
+
+    <div class="quiz-bg-circle circle-1"></div>
+    <div class="quiz-bg-circle circle-2"></div>
+
+    <div class="quiz-container">
+
+        <!-- LOGO -->
+        <div class="quiz-logo">
+            <div class="quiz-logo-icon">
+                <i data-lucide="zap"></i>
+            </div>
+            <span>DJY Academy Hub</span>
+        </div>
+
+        <!-- VUE INTRO -->
+        <div id="view-intro">
+            <div class="quiz-intro">
+                <h2>Quiz de placement 🎯</h2>
+                <p>Réponds à 10 questions pour que nous puissions déterminer ton niveau et personnaliser ton apprentissage.</p>
+            </div>
+
+            <div class="quiz-info-grid">
+                <div class="quiz-info-card">
+                    <span class="quiz-info-icon">📝</span>
+                    <span class="quiz-info-label">Questions</span>
+                    <span class="quiz-info-value">10</span>
+                </div>
+                <div class="quiz-info-card">
+                    <span class="quiz-info-icon">⏱️</span>
+                    <span class="quiz-info-label">Durée estimée</span>
+                    <span class="quiz-info-value">~5 min</span>
+                </div>
+                <div class="quiz-info-card">
+                    <span class="quiz-info-icon">🎯</span>
+                    <span class="quiz-info-label">Niveaux</span>
+                    <span class="quiz-info-value">3</span>
+                </div>
+            </div>
+
+            <div class="quiz-level-breakdown">
+                <h4>Comment le niveau est déterminé</h4>
+                <div class="level-row">
+                    <span class="level-badge beginner">Débutant</span>
+                    <span class="level-desc">0 à 3 bonnes réponses</span>
+                </div>
+                <div class="level-row">
+                    <span class="level-badge intermediate">Intermédiaire</span>
+                    <span class="level-desc">4 à 6 bonnes réponses</span>
+                </div>
+                <div class="level-row">
+                    <span class="level-badge advanced">Avancé</span>
+                    <span class="level-desc">7 à 10 bonnes réponses</span>
+                </div>
+            </div>
+
+            <button class="btn-start-quiz" id="start-quiz-btn" type="button">
+                <i data-lucide="play"></i>
+                Commencer le quiz
+            </button>
+
+            <p class="quiz-skip">
+                Tu veux commencer directement ?
+                <a href="#" id="skip-quiz-btn">Passer le quiz</a>
+            </p>
+        </div>
+
+        <!-- VUE QUIZ -->
+        <div id="view-quiz" class="hidden">
+            <div class="quiz-header">
+                <div class="quiz-progress-info">
+                    <span class="quiz-progress-text" id="quiz-progress-text">Question 1 / 10</span>
+                    <span class="quiz-progress-level beginner" id="quiz-level-badge">Débutant</span>
+                </div>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress-fill" style="width: 10%"></div>
+                </div>
+            </div>
+
+            <div class="quiz-question-card">
+                <span class="quiz-question-number" id="quiz-question-number">Question 1</span>
+                <p class="quiz-question-text" id="quiz-question-text"></p>
+                <div class="quiz-context hidden" id="quiz-context"></div>
+            </div>
+
+            <div class="quiz-options" id="quiz-options"></div>
+        </div>
+
+        <!-- VUE RÉSULTAT -->
+        <div id="view-result" class="hidden">
+            <div class="quiz-result">
+                <span class="result-icon" id="result-icon">🎉</span>
+                <h2 class="result-title" id="result-title">Quiz terminé !</h2>
+                <p class="result-subtitle" id="result-subtitle">Voici ton niveau de départ</p>
+
+                <div class="result-level-card">
+                    <span class="result-level-label">Ton niveau détecté</span>
+                    <span class="result-level-value" id="result-level-value">Débutant</span>
+                    <span class="result-score" id="result-score">Score : 0 / 10</span>
+                </div>
+
+                <div class="result-breakdown">
+                    <div class="result-breakdown-item">
+                        <span id="result-beginner-score" style="color: #22C55E;">0/3</span>
+                        <span>Débutant</span>
+                    </div>
+                    <div class="result-breakdown-item">
+                        <span id="result-intermediate-score" style="color: #60A5FA;">0/4</span>
+                        <span>Intermédiaire</span>
+                    </div>
+                    <div class="result-breakdown-item">
+                        <span id="result-advanced-score" style="color: #A855F7;">0/3</span>
+                        <span>Avancé</span>
+                    </div>
+                </div>
+
+                <button class="btn-go-dashboard" id="go-dashboard-btn" type="button">
+                    Commencer l'apprentissage →
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/placement-quiz.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

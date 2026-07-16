@@ -422,7 +422,7 @@ document.getElementById('save-objectives-btn').addEventListener('click', async f
             localStorage.setItem('userObjectives', JSON.stringify(selectedObjectives));
             localStorage.removeItem('tempAccount');
 
-            window.location.href = 'dashboard.html';
+            window.location.href = 'placement-quiz.html';
         } else {
             showLoginView('login');
         }
